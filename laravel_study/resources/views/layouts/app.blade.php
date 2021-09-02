@@ -45,7 +45,8 @@
                     </svg>
                 </div>
 
-                @yield('content') {{-- 어떤 섹션의 컨텐츠를 나타내는 데에 사용된다 --}}
+                @yield('content2') {{-- 어떤 섹션의 컨텐츠를 나타내는 데에 사용된다 --}}
+                {{-- content는 섹션의 이름 --}}
 
                 <div class="flex justify-center mt-4 sm:items-center sm:justify-between">
                     <div class="ml-4 text-center text-sm text-gray-500 sm:text-right sm:ml-0">

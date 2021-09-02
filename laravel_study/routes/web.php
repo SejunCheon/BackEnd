@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PostsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,6 +26,10 @@ Route::get('/hello', function () {
     return view('layouts.hello');
 });
 
-// Route::get('/login', function () {
-//     return view('welcome');
-// })->name('login');
+// php artisan route:list 라우트리스트 명령어
+// Route::get('/post', [PostsController::class, 'index']);
+// Route::get('/create', [PostsController::class, 'create']);
+// Route::get('/store', [PostsController::class, 'store']);
+Route::resource('/posts', PostsController::class);
+
+// php artisan make:model Post -mf 모델 Post를 만듬과 동시에 migration과 factory를 함께 만들어준다.

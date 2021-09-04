@@ -22,7 +22,10 @@ class BlogFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'title' => $this->faker->word(),
+            'content' => $this->faker->sentence(),
+            'image' => $this->faker->imageUrl(320, 240, 'cats'),
+            'user_id' => 1, 
         ];
     }
 }

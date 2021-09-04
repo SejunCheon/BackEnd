@@ -22,6 +22,6 @@ Route::get('/layout', function () {
     return view('layouts.app');
 });
 
-Route::resource('/blog', BlogController::class);
+Route::resource('/blogs', BlogController::class);
 
 

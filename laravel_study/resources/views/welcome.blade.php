@@ -1,6 +1,8 @@
-@extends('layouts.app')
-
-@section('content')
-    <h2>헤이, 모두들 안녕 내가 누군지 아니</h2>
-@endsection
-
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('home') }}
+        </h2>
+    </x-slot>
+    <x-post-list :posts="$posts"/>
+</x-app-layout>

@@ -14,22 +14,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Laravel Breeze는 모든 Laravel 인증 기능과 우리가 사랑하는 Tailwind CSS 스타일 및 스타일 블레이드 템플릿이 내장되어 있습니다.
+//  Laravel breeze는 로그인, 등록, 비밀번호 분실, 비밀번호 재설정, 이메일 확인 및 비밀번호 확인과 같은 인증 기능을 설정하고 구성하는 데 필요한 모든 컨트롤러, 경로 및보기를 생성합니다.
+
+Route::resource('/posts', PostsController::class)->middleware(['auth']); 
+// resource를 했을때는 라우트 이름이 자동으로 지정되어있다
+
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');-
 
-Route::get('/layout', function () {
-    return view('layouts.app');
-});
-
-Route::get('/hello', function () {
-    return view('layouts.hello');
-});
-
-// php artisan route:list 라우트리스트 명령어
-// Route::get('/post', [PostsController::class, 'index']);
-// Route::get('/create', [PostsController::class, 'create']);
-// Route::get('/store', [PostsController::class, 'store']);
-Route::resource('/posts', PostsController::class);
-
-// php artisan make:model Post -mf 모델 Post를 만듬과 동시에 migration과 factory를 함께 만들어준다.
+require __DIR__.'/auth.php'; // 현재 디렉토리의 절대 경로를 출력해주는 상수

@@ -14,14 +14,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/blogs', function () {
+    return view('welcome', BlogController::class);
+});
+
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
 
-Route::get('/layout', function () {
-    return view('layouts.app');
-});
-
-Route::resource('/blogs', BlogController::class);
-
-
+require __DIR__.'/auth.php';

@@ -14,9 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/blogs', function () {
-    return view('welcome', BlogController::class);
-});
+Route::resource('/blogs', BlogController::class)->middleware(['auth']);
 
 Route::get('/', function () {
     return view('dashboard');

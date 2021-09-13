@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Blog;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BlogController extends Controller
 {
@@ -18,7 +19,7 @@ class BlogController extends Controller
             1. 게시글 리스트를 DB에서 읽어와야지
             2. 게시글 목록을 만들어주는 blade에 읽어온 데이터를 전달하고 실행 
         */
-        $blogs = Blog::all();
+        $blogs = Blog::latest()->paginate(5);
         return view('bbs.index', ['blogs'=>$blogs]);
     }
 
@@ -40,7 +41,14 @@ class BlogController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        Blog::create([
+            'title' => $request->title,
+            'content' => $request->content,
+            'user_id'=> Auth::user()->id,
+        ]);
+
+        return  redirect()->route('blogs.index');
     }
 
     /**

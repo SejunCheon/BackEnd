@@ -10,6 +10,12 @@ class Blog extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'title',
+        'content',
+        'user_id',
+    ];
+
     public function writer() {
         /* User <-> Post 의 relationship */
         // 1 : N

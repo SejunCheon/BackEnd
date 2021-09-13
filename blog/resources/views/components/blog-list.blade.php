@@ -23,5 +23,6 @@
             </tr>
             </tbody>
         </table>
+        {{ $blogs->links() }}
 </div>
  

@@ -20,6 +20,7 @@
             @foreach ($posts as $post)
               <tr>
                 <td>{{  $post->title }}</td>
+                <td>{{  $post->content }}</td>
                 <td>{{  $post->writer->name }}</td> {{-- 관계로 정의된 함수는 속성처럼 괄호를 안써도된다 --}}
                 <td>{{  $post->created_at->diffForHumans() }}</td>
               </tr>
@@ -27,4 +28,5 @@
           </tr>
         </tbody>
       </table>
+      {{ $posts->links() }}
 </div>

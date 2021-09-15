@@ -10,16 +10,22 @@
     <div class="m-4 p-4"> {{--  margin-4 padding-4  row g-3 g = gutter 컬럼사이의 패딩--}}
         <form class="row g-3" action="{{ route('blogs.store') }}" method="POST" enctype="multipart/form-data">
           @csrf
-            <div class="col-md-6">
+            <div class="col-12 m-2">
               <label for="title" class="form-label">제목</label>
-              <input type="title" name="title" class="form-control" id="title">
+              <input type="text" name="title" class="form-control" id="title" placeholder="제목 입력">
+              @error('title')
+                  <div class="alert alert-danger">{{ $message }}</div>
+              @enderror
             </div>
-            <div class="col-12">
+            <div class="col-12 m-2">
               <label for="content" class="form-label">내용</label>
               <textarea name="content" id="content"  class="form-control"></textarea>
+              @error('content')
+                  <div class="alert alert-danger">{{ $message }}</div>
+              @enderror
             </div>
-            <div class="col-12">
-              <label for="inputAddress2" class="form-label">이미지</label>
+            <div class="col-12 m-2">
+              <label for="image" class="form-label">이미지</label>
               <input type="file" class="form-control" name="image" id="image">
             </div>
             <div class="col-12">

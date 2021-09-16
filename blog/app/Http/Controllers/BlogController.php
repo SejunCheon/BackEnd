@@ -41,16 +41,30 @@ class BlogController extends Controller
      */
     public function store(Request $request)
     {
-        $this->$request->validate([
+        $this->validate($request, [
             'title' => 'required',
-            'content' => 'required|min:2'
+            'content' => 'required|min:2',
         ]);
 
-        Blog::create([
-            'title' => $request->title,
-            'content' => $request->content,
-            'user_id'=> Auth::user()->id,
-        ]);
+        $fileName = null;
+        if($request->hasFile('image')){
+            $fileName = time().'_'.$request->file('image')->getClientOriginalName();
+            // dd($fileName);
+            // 파일 이름이 자동으로 생성되는 것을 원하지 않으면 storeAs경로, 파일 이름 및 디스크 이름을 인수로 받아들이는 메서드
+            $path = $request->file('image')->storeAs('public/image', $fileName);
+            // dd($path);
+        }
+
+        $input = array_merge($request->all(),
+        ["user_id"=>Auth::user()->id]);
+
+
+        if($fileName){
+            $input = array_merge($input, ['image'=>$fileName]);
+
+        }
+
+        Blog::create($input);
 
         return  redirect()->route('blogs.index');
     }
@@ -63,7 +77,10 @@ class BlogController extends Controller
      */
     public function show($id)
     {
-        //
+        // $id에 해당하는 Blog를 데이터베이스에서 인출
+        $blog = Blog::find($id);
+        // 그 놈을 상세보기 뷰로 전달한다.
+        return view('bbs.show', ['blog' => $blog]);
     }
 
     /**

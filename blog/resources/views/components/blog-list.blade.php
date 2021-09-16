@@ -13,7 +13,7 @@
             <tr>
             @foreach ($blogs as $blog)
                 <tr>
-                  <td>{{ $blog->title }}</td>
+                  <td><a href="{{ route('blogs.show', ['blog' => $blog->id]) }}">{{ $blog->title }}</a></td>
                   {{-- <td>{{ $blog->content }}</td> --}}
                   <td>{{ $blog->writer->name }}</td>
                   {{-- 관계로 정의된 writer함수는 속성처럼 괄호를 안써도된다 --}}

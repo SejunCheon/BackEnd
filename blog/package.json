@@ -27,6 +27,7 @@
         "tailwindcss": "^2.2.11"
     },
     "dependencies": {
+        "npm-watch": "^0.11.0",
         "tailwind": "^4.0.0"
     }
 }

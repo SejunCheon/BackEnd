@@ -41,8 +41,14 @@
             </div>
 
             <div class="flex items-center justify-end mt-4">
+                @if (Route::has('register')) {{--  로그인 화면에서 회원가입칸을 만들었다 --}}
+                    <a class="underline text-sm mr-4 text-gray-600 hover:text-gray-900" href="{{ route('register') }}">
+                        {{ __('Register?') }}
+                    </a>
+                @endif
+
                 @if (Route::has('password.request'))
-                    <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('password.request') }}">
+                    <a class="underline text-sm ml-4 mr-4 text-gray-600 hover:text-gray-900" href="{{ route('password.request') }}">
                         {{ __('Forgot your password?') }}
                     </a>
                 @endif

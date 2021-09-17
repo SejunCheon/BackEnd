@@ -76,9 +76,8 @@ class PostsController extends Controller
         }
         /*
             $request -> all() : ['title' => 'abc', "content" => "123"]
-            ["user_id"=>Auth::user()->id] => ["user_id" => 1]
-            array_merge(['title' => 'abc', "content" => "123"],
-                                    ["user_id" => 1]);
+                                    ["user_id"=>Auth::user()->id] => ["user_id" => 1]
+            array_merge(['title' => 'abc', "content" => "123"], ["user_id" => 1]);
         */
         /*
             $input의 내용은 [
@@ -109,7 +108,8 @@ class PostsController extends Controller
      */
     public function show($id)
     {
-        //
+        $post = Post::find($id);
+        return view('bbs.show', ['post'=>$post]);
     }
 
     /**

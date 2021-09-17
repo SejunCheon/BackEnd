@@ -19,7 +19,7 @@
           <tr>
             @foreach ($posts as $post)
               <tr>
-                <td>{{  $post->title }}</td>
+                <td><a href="{{ route('posts.show', ['post'=>$post]) }}">{{  $post->title }}</a></td>
                 <td>{{  $post->content }}</td>
                 <td>{{  $post->writer->name }}</td> {{-- 관계로 정의된 함수는 속성처럼 괄호를 안써도된다 --}}
                 <td>{{  $post->created_at->diffForHumans() }}</td>

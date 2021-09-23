@@ -120,7 +120,13 @@ class PostsController extends Controller
      */
     public function edit($id)
     {
-        //
+        // $id에 해당하는 포스트를 수정할 수 있는
+        // 페이지를 반환해주면 된다.
+
+        $post = Post::find($id);
+
+
+        return view('bbs.edit', ['post'=>$post]);
     }
 
     /**
@@ -132,7 +138,19 @@ class PostsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, ['title'=>'required', 
+                            'content' => 'required|min:2']);
+
+        $post = Post::find($id);
+        
+        // $post->title = $request->input('title');
+
+        // $post->title = $request->title;
+        // $post->content = $request->content;
+        // $post->save();
+
+        $post->update(['title'=>$request->title,
+                             'content'=>$request->content]);
     }
 
     /**
@@ -141,8 +159,12 @@ class PostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        // DI, Dependency Injection, 의존성 주입
+        // dd($request);
+        $post = Post::find($id)->delete();
+
+        return redirect()->route('posts.index', ['post'=>$post]);
     }
 }

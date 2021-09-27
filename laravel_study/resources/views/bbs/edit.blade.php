@@ -8,7 +8,7 @@
         </div>
     </x-slot>
     <div class="m-4 p-4">
-    <form class="row g-3" action="{{ route('posts.update', ['post'=>$post->id]) }}"
+    <form id="editForm" class="row g-3" action="{{ route('posts.update', ['post'=>$post->id]) }}"
     method="post" enctype="multipart/form-data"> {{-- enctype이 있어야 파일보낼수 있음 중요* --}}
         @method('patch')
         @csrf
@@ -26,7 +26,7 @@
         <div class="col-12 m-2">
           <label for="content" class="form-label">글내용</label>
           <textarea class="form-control"name="content" id="content"
-                            value="{{ $post->content }}"></textarea>
+                            >{{ $post->content }}</textarea>
           @error('content')
             <div class="text-red-800">
                 <span>{{  $message }}</span>
@@ -35,7 +35,10 @@
         </div>
         <div class="col-12 m-2">
             @if ($post->image)
+            <div class="flex">
                 <img src="{{'/storage/images/'.$post->image}}" alt="my post image" class="w-20 h-20 rounded-full card-img-top">
+                <button onclick="return deleteImage()" class="btn btn-danger h-10 my-4 mx-2">이미지 삭제</button>
+            </div>
             @else
                 <span class="ml-3">첨부된 이미지 파일 없음</span>
             @endif
@@ -46,5 +49,16 @@
           <button type="submit" class="btn btn-success">글수정</button>
         </div>
       </form>
+      <script>
+          function deleteImage() {
+            // alert('Hi~');
+            editForm = document.getElementById('editForm');
+            editForm.delete('_method');
+            editForm._method = 'delete';
+            editForm.action = '/posts/images/{{ $post->id }}';
+            editForm.submit();
+            return false;
+          }
+      </script>
     </div>
 </x-app-layout>

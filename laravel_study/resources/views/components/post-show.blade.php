@@ -1,8 +1,8 @@
-<div>
+<div class="container">
     <!-- Breathing in, I calm body and mind. Breathing out, I smile. - Thich Nhat Hanh -->
-    <div class="card" style="width: 18rem ">
+    <div class="card" style="width: 18rem">
         @if ($post->image)
-            <img src="{{'/storage/images/'.$post->image }}" class= card-img-top" >
+            <img src="{{'/storage/images/'.$post->image }}" class= card-img-top >
         @else
             <span class="ml-3">첨부된 이미지 파일 없음</span>
         @endif

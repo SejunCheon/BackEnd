@@ -22,6 +22,8 @@ Route::resource('/posts', PostsController::class)->middleware(['auth']);
 
 Route::get('/', function () {
     return view('dashboard');
-})->middleware(['auth'])->name('dashboard');-
+})->middleware(['auth'])->name('dashboard');
+
+Route::delete('/posts/images/{id}', [PostsController::class, 'deleteImage'])->middleware(['auth']);
 
 require __DIR__.'/auth.php'; // 현재 디렉토리의 절대 경로를 출력해주는 상수

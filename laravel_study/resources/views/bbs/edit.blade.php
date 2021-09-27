@@ -51,12 +51,13 @@
       </form>
       <script>
           function deleteImage() {
-            // alert('Hi~');
-            editForm = document.getElementById('editForm');
-            editForm.delete('_method');
-            editForm._method = 'delete';
-            editForm.action = '/posts/images/{{ $post->id }}';
-            editForm.submit();
+            if(confirm('정말로 프로필 사진을 삭제하시겠습니까?') == true) {
+              editForm = document.getElementById('editForm');
+              // editForm.delete('_method');
+              editForm._method.value = 'delete';
+              editForm.action = '/posts/images/{{ $post->id }}';
+              editForm.submit();
+            }
             return false;
           }
       </script>

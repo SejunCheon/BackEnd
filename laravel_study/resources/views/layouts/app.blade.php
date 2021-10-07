@@ -28,7 +28,7 @@
             </header>
 
             <!-- Page Content -->
-            <main>
+            <main id="app">
                 {{ $slot }}  {{-- 사용자가 작성한 부분은 이곳에 들어간다 --}}
             </main>
         </div>

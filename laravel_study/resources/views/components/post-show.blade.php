@@ -9,6 +9,9 @@
         <div class="card-body">
           <h5 class="card-title">{{ $post->title }}</h5>
           <p class="card-text">{{ $post->content }}</p>
+          <div>
+            <like-button/>
+          </div>
         </div>
         <ul class="list-group list-group-flush">
           <li class="list-group-item">작성자 : {{ $post->writer->name }}</li>

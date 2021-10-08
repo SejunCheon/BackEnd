@@ -10,7 +10,7 @@
           <h5 class="card-title">{{ $post->title }}</h5>
           <p class="card-text">{{ $post->content }}</p>
           <div>
-            <like-button/>
+            <like-button :post="{{ $post }}" :loginuser="{{ auth()->user()->id }}"/>
           </div>
         </div>
         <ul class="list-group list-group-flush">
@@ -31,14 +31,4 @@
         </form>
         </div>
       </div>
-
-      <script>
-        function confirmDelete(e) {
-          myform = document.getElementById('form');
-          flag = confirm('정말 삭제하시겠습니까?');
-          if(flag){
-            myform.submit();
-          }
-        }
-      </script>
 </div>

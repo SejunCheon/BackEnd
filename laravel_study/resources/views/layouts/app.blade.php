@@ -32,5 +32,14 @@
                 {{ $slot }}  {{-- 사용자가 작성한 부분은 이곳에 들어간다 --}}
             </main>
         </div>
+        <script>
+            function confirmDelete(e) {
+              myform = document.getElementById('form');
+              flag = confirm('정말 삭제하시겠습니까?');
+              if(flag){
+                myform.submit();
+              }
+            }
+          </script>
     </body>
 </html>

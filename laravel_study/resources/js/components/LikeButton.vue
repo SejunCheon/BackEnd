@@ -37,16 +37,42 @@
 
 <script>
 export default {
+    props: ["post", "loginuser"],
     data() {
         return {
-            like: false
+            like: false,
+            userIdArray: []
         };
     },
     methods: {
         likeClicked() {
             // 서버에 like/unlike 요청 보내기.
-            this.like = !this.like;
+            axios
+                .post("/like/" + this.post.id)
+                .then(res => {
+                    console.log(res.data);
+                    this.like = !this.like;
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        },
+        checkLikes() {
+            /*
+            tiis.post.likes가 현재 로그인한
+            사용자의 아이디 즉, this.loginuser를 
+            포함하고 있으면 
+            like = true,
+            그렇지 않으면 like = false
+            */
+            this.like = this.userIdArray.includes(this.loginuser);
         }
+    },
+    created() {
+        this.userIdArray = this.post.likes.map(elem => {
+            return elem.id;
+        });
+        this.checkLikes();
     }
 };
 </script>

@@ -15,6 +15,7 @@
 
         <!-- Scripts -->
         <script src="{{ asset('js/app.js') }}" defer></script>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">
@@ -33,6 +34,9 @@
             </main>
         </div>
         <script>
+            @if(session('success'))
+                showSuccessMsg();
+            @endif
             function confirmDelete(e) {
               myform = document.getElementById('form');
               flag = confirm('정말 삭제하시겠습니까?');
@@ -40,6 +44,26 @@
                 myform.submit();
               }
             }
+
+            function deleteImage(id) {
+            if(confirm('정말로 프로필 사진을 삭제하시겠습니까?') == true) {
+              editForm = document.getElementById('editForm');
+              // editForm.delete('_method');
+              editForm._method.value = 'delete';
+              editForm.action = '/posts/images/'+id;
+              editForm.submit();
+            }
+            return false;
+          }
+        function showSuccessMsg() {
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: '글이 성공적으로 등록되었습니다',
+                showConfirmButton: false,
+                timer: 1500
+            })
+        }
           </script>
     </body>
 </html>

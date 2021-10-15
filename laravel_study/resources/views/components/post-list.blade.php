@@ -14,6 +14,7 @@
             <th scope="col">내용</th>
             <th scope="col">작성자</th>
             <th scope="col">작성시간</th>
+            <th scope="col">좋아요 수</th>
           </tr>
         </thead>
         <tbody>
@@ -24,6 +25,7 @@
                 <td>{{  $post->content }}</td>
                 <td>{{  $post->writer->name }}</td> {{-- 관계로 정의된 함수는 속성처럼 괄호를 안써도된다 --}}
                 <td>{{  $post->created_at->diffForHumans() }}</td>
+                <td>{{ $post->likes->count() }}</td>
               </tr>
             @endforeach
           </tr>

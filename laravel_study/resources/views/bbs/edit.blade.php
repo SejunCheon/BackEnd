@@ -34,7 +34,7 @@
           @enderror
         </div>
         <div class="col-12 m-2">
-            @if ($post->image)
+            @if ($post->image)  {{-- 이미지가 있으면 --}}
             <div class="flex">
                 <img src="{{'/storage/images/'.$post->image}}" alt="my post image" class="w-20 h-20 rounded-full card-img-top">
                 <button onclick="return deleteImage({{ $post->id }})" class="btn btn-danger h-10 my-4 mx-2">이미지 삭제</button>
@@ -49,17 +49,5 @@
           <button type="submit" class="btn btn-success">글수정</button>
         </div>
       </form>
-      <script>
-          function deleteImage(id) {
-            if(confirm('정말로 프로필 사진을 삭제하시겠습니까?') == true) {
-              editForm = document.getElementById('editForm');
-              // editForm.delete('_method');
-              editForm._method.value = 'delete';
-              editForm.action = '/posts/images/'+id;
-              editForm.submit();
-            }
-            return false;
-          }
-      </script>
     </div>
 </x-app-layout>

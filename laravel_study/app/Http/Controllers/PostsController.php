@@ -98,7 +98,7 @@ class PostsController extends Controller
         // $post->save();
 
         // return view(('bbs.index'), ['posts'=>Post::all()]);
-        return redirect()->route('posts.index');
+        return redirect()->route('posts.index')->with('success', 1);
     }
 
     /**

@@ -21,8 +21,6 @@ class CreatePostUserTable extends Migration
                     ->onDelete('cascade');
             $table->foreignId('post_id')->constrained()
                     ->onDelete('cascade');
-
-            $table->timestamps();
         });
     }
 

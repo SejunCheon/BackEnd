@@ -3,6 +3,7 @@
 use App\Http\Controllers\CommentsController;
 use App\Http\Controllers\LikesController;
 use App\Http\Controllers\PostsController;
+use App\Models\Comment;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,6 +31,14 @@ Route::delete('/posts/images/{id}', [PostsController::class, 'deleteImage'])->mi
 
 Route::post('/like/{post}',[LikesController::class, 'store'])->middleware(['auth'])->name('like.store');
 
+Route::post('/comments/{postId}', [CommentsController::class, 'store']);
+
+Route::get('/comments/{postId}', [CommentsController::class, 'index']);
+
+Route::patch('/comments/{commentId}', [CommentsController::class, 'update']);
+
 require __DIR__.'/auth.php'; // 현재 디렉토리의 절대 경로를 출력해주는 상수
 
 Route::resource('/comments', CommentsController::class);
+
+Route::delete('/comments/{commentId}', [CommentsController::class, 'destroy']);

@@ -19,9 +19,9 @@ class CommentsController extends Controller
             order by created_at desc;
         */
 
-        $comment = Comment::where('post_id', $postId)->latest();
+        $comments = Comment::where('post_id', $postId)->latest()->get();
 
-        return $comment;
+        return $comments;
     }
 
     /**
@@ -40,9 +40,30 @@ class CommentsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $postId )
     {
-        //
+        /* 첫 번째 방법:
+            Comment 객체를 생성하거,
+            이 객체의 멤버변수를 설정하고
+            save();
+            두 번째 방법:
+            Comment::create([]);
+            */
+            // validation check
+            $request->validate(['comment'=>'required']);
+            // $request->validate(['email'=>'required|email|unique:comments']);
+            // $this->validate($request, ['comment'=>'required]);
+
+            // create에 사용할 수 있는 칼럼들은
+            // Eloquent 모델 클래스에
+            //
+            $comment = Comment::create([
+                'comment'=> $request->input('comment'),
+                'user_id' => auth()->user()->id,
+                'post_id'=>$postId,
+           ]);
+
+           return $comment; // 위 create에 의해 삽인된 레드코에 대응된 Eloquent
     }
 
     /**
@@ -53,7 +74,7 @@ class CommentsController extends Controller
      */
     public function show($id)
     {
-        //
+        
     }
 
     /**
@@ -74,9 +95,15 @@ class CommentsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $commentId)
     {
-        //
+        // validation check
+        $request->validate(['comment'=>'required']);
+        // update할 레코를 먼저 찾고, 그 다음 update
+        // selete * from comments where id = ?
+        $comment = Comment::find($commentId);
+        // update comments set comment=?, updated_at=now where id = ?
+        $comment->update(['comment'=> $request->input('comment')]);
     }
 
     /**
@@ -85,8 +112,19 @@ class CommentsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($comment)
     {
-        //
+        /*
+            comments 테이블에서 id가 $commentId인 레코드를 삭제
+            1. RAW query
+            2. DB query Bullfes
+            3. Eloquent
+            */
+            // select * from comments where id = ?//
+            $comment = Comment::find($comment);
+
+            // delete from comments where id = >
+
+            return $comment;
     }
 }

@@ -1,6 +1,6 @@
 <div class="container">
     <!-- Breathing in, I calm body and mind. Breathing out, I smile. - Thich Nhat Hanh -->
-    <div class="card" style="width: 18rem">
+    <div class="card" style="width: 20rem">
         @if ($post->image)
             <img src="{{'/storage/images/'.$post->image }}" class= card-img-top >
         @else
@@ -32,7 +32,7 @@
         </div>
       </div>
 
-      <div class="card mt-2 mb-5" style="width:100%; margin:10px">
+      <div class="card mt-2 mb-5" style="width:20rem;">
         <comment-list :post="{{ $post }}" :loginuser="{{ auth()->user()->id }}"/>
       </div>
 </div>

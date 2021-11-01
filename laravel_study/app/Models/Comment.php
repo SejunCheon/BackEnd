@@ -20,7 +20,7 @@ class Comment extends Model
         // Comment 입장에서 연결된 User를 찾을 때
         // belongsTo 관계 메서드들 통해서
         // 연결시켜주면 된다.
-         return $this->belongsTo(User::class, 'user_id', 'id'); // 'users'
+         return $this->belongsTo(User::class, 'user_id', 'id', 'users'); // 'users'
          /*
 
             select *

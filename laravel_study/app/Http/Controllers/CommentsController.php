@@ -19,7 +19,7 @@ class CommentsController extends Controller
             order by created_at desc;
         */
 
-        $comments = Comment::where('post_id', $postId)->latest()->get();
+        $comments = Comment::with('user')->where('post_id', $postId)->latest()->get();
 
         return $comments;
     }
@@ -124,6 +124,7 @@ class CommentsController extends Controller
             $comment = Comment::find($comment);
 
             // delete from comments where id = >
+            $comment->delete();
 
             return $comment;
     }

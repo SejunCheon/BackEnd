@@ -2,19 +2,21 @@
     <div>
         <button class="btn btn-default" @click="getComments">
             댓글 불러오기<comment-item
-                v-for="(comment, index) in comments"
+                v-for="(comment, index) in comments.data"
                 :key="index"
                 :comment="comment"
-            />
+            />{{ comments.links }}
+            <pagination :comment="comment />
         </button>
     </div>
 </template>
 
 <script>
 import CommentItem from "./CommentItem.vue";
+import Pagination from "./Pagination.vue";
 export default {
     props: ["post", "loginuser"],
-    components: { CommentItem },
+    components: { CommentItem, Pagination },
     data() {
         return {
             comments: []

@@ -122,13 +122,20 @@ class PostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
+        // 의존성 주입
+        // Di(Denpency Injection)
+
         // $id에 해당하는 포스트를 수정할 수 있는
         // 페이지를 반환해주면 된다.
 
         $post = Post::find($id);
 
+        // if($request->user()->cannot('update', $post)){
+        //     abort(403);
+        // }
+        $this->authorize('update', $post);
 
         return view('bbs.edit', ['post'=>$post]);
     }
@@ -187,6 +194,8 @@ class PostsController extends Controller
         // DI, Dependency Injection, 의존성 주입
         // dd($request);
         $post = Post::find($id);
+
+        $this->authorize('delete', $post);
 
         // 게시글에  딸린 이미지가 있으면  파일시스템에서도 삭제해줘야 한다.
         if($post->image){

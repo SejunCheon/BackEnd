@@ -1,7 +1,7 @@
 <template>
     <div>
         <!-- component -->
-        <div class="antialiased mx-auto max-w-screen-sm">
+        <div class="antialiased mx-auto max-w-screen-m p-3">
             <!-- <h3 class="mb-4 text-lg font-semibold text-gray-900">Comments</h3> -->
             <br />
             <div class="space-y-4">
@@ -22,6 +22,33 @@
                         <p class="text-sm">
                             {{ comment.comment }}
                         </p>
+                        <div
+                            class="flex justify-start items-center text-xs w-full"
+                        >
+                            <div
+                                class="font-semibold text-gray-700 px-1 flex items-center justify-center space-x-1"
+                            >
+                                <a
+                                    href="#"
+                                    class="hover:underline"
+                                    v-if="comment.user_id == login_user_id"
+                                >
+                                    <small>Update</small>
+                                </a>
+                                <small class="self-center">.</small>
+                                <a
+                                    href="#"
+                                    class="hover:underline"
+                                    v-if="comment.user_id == login_user_id"
+                                >
+                                    <small>Delete</small>
+                                </a>
+                                <small class="self-center">.</small>
+                                <a href="#" class="hover:underline">
+                                    <small>15 hour</small>
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -31,6 +58,6 @@
 
 <script>
 export default {
-    props: ["comment"]
+    props: ["comment", "login_user_id"]
 };
 </script>

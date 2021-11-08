@@ -19,7 +19,7 @@ class CommentsController extends Controller
             order by created_at desc;
         */
 
-        $comments = Comment::with('user')->where('post_id', $postId)->latest()->paginate();
+        $comments = Comment::with('user')->where('post_id', $postId)->latest()->paginate(2);
 
         return $comments;
     }

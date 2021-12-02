@@ -6,7 +6,7 @@ use App\Models\Car;
 use App\Models\Company;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Request as FacadesRequest;
-
+use Illuminate\Support\Facades\Storage;
 
 class CarController extends Controller
 {
@@ -110,7 +110,10 @@ class CarController extends Controller
      */
     public function edit(Car $car)
     {
-        //
+        $company = Company::all();
+
+        return view('components.cars.car-edit',
+        compact('car', 'company')); // ['car' => $car];
     }
 
     /**
@@ -122,7 +125,52 @@ class CarController extends Controller
      */
     public function update(Request $request, Car $car)
     {
-        //
+         // dd($request->all());
+        // 1. 자동차 정보 저장에 필요한
+        // 데이터가 모두, 그리고 적절한 형태로
+        // 왔는지 정당성검사를 수행하자.
+
+        $now = now();
+        // dd($request->image);
+
+        $data = $request->validate([
+            'image'=>'image',
+            'name'=>'required',
+            'company_id'=>'required',
+            'year'=>'required|numeric|min:1800|max:'.($now->year+1),
+            'price'=>'required|numeric|min:1',
+            'type' => 'required',
+            'style' =>'required'
+        ]);
+
+        // dd('original:'.$car->image);
+        $path = null;
+        if($request->image) { // 기본 이미지를 변경하고자 하는 경우
+            Storage::delete($car->image);
+            $path = $request->image->store('images', 'public');
+        }
+    //    dd($data); 
+
+        // 2. 이미지를 파일 시스템의 특정 위치에 저장한다.
+            
+        
+        // dd($path);
+        // dd($data);
+        //  3. 요청정보에서($request) 필요한 데이터를
+        //  꺼내가지고 DB에 저장한다.
+
+        if($path != null) {
+            $data = array_merge($data, ['image'=>$path]);
+        }
+        // dd($data);
+
+        // update set /* image=?, style=?, kind=?, ..
+        // from cars where id = ?
+        $car->update($data);
+
+        // network tab에서 compact('car')를 이용했을 때
+        // 어떤 지시가 넘어오는지 확인해보자
+        return  redirect()->route('car.show',['car'=>$car->id]);
     }
 
     /**

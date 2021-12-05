@@ -110,10 +110,11 @@ class CarController extends Controller
      */
     public function edit(Car $car)
     {
-        $company = Company::all();
+        $companies = Company::all();
 
         return view('components.cars.car-edit',
-        compact('car', 'company')); // ['car' => $car];
+            compact(['car', 'companies'])
+        ); // ['car' => $car];
     }
 
     /**
@@ -170,7 +171,7 @@ class CarController extends Controller
 
         // network tab에서 compact('car')를 이용했을 때
         // 어떤 지시가 넘어오는지 확인해보자
-        return  redirect()->route('car.show',['car'=>$car->id]);
+        return  redirect()->route('cars.show',['car'=>$car->id]);
     }
 
     /**

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PostController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -36,3 +37,5 @@ Route::get('/test', function () {
 Route::get('/main', function () {
     return Inertia::render('Main');
 });
+
+Route::resource('/posts', PostController::class);

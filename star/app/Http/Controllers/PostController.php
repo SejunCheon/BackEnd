@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class PostController extends Controller
 {
@@ -11,9 +13,11 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($posts)
     {
-        
+        $posts = Post::latest()->paginate(5);
+
+        return Inertia::render('/main', ['post' => $posts]);
     }
 
     /**

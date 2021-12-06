@@ -16,6 +16,8 @@ use Inertia\Inertia;
 |
 */
 
+Route::resource('/posts', PostController::class)->middleware(['auth']); 
+
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
@@ -29,13 +31,11 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->name('dashboard');
 
-Route::get('/test', function () {
-    return Inertia::render('Test');
-});
+
 
 
 Route::get('/main', function () {
-    return Inertia::render('Main');
-});
+    return Inertia::render('posts/Main');
+})->name('main');
 
 Route::resource('/posts', PostController::class);

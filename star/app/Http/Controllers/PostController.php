@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class PostController extends Controller
@@ -38,7 +39,15 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, ['title'=>'required', 
+                            'content' => 'required|min:2']);
+                            
+        $input = array_merge($request->all(),
+            ["user_id"=>Auth::user()->id]);
+
+        Post::create($input);
+
+        return redirect()->route('posts.index');                            
     }
 
     /**

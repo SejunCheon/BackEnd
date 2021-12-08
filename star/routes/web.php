@@ -38,8 +38,6 @@ Route::get('/main', function () {
     return Inertia::render('Main');
 })->name('main')->middleware(['auth']);
 
-Route::get('/index', function () {
-    return Inertia::render('posts/index');
-});
+// 
 
 Route::resource('/posts', PostController::class)->middleware(['auth']);

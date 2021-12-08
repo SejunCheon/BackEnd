@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class PostController extends Controller
@@ -14,12 +15,13 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($posts)
+    public function index()
     {
         $posts = Post::latest()->paginate(5);
 
-        return Inertia::render('/main', ['post' => $posts]);
+        return Inertia::render('posts/index', ['posts' => $posts]);
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -45,9 +47,17 @@ class PostController extends Controller
         $input = array_merge($request->all(),
             ["user_id"=>Auth::user()->id]);
 
+        // Post::create($input,
+        //     Request::validate([
+        //         'title' => ['required'],
+        //         'content' => ['required|min:2'],
+        //     ])
+        // );
+
         Post::create($input);
 
-        return redirect()->route('posts.index');                            
+        // return redirect()->route('posts.index');                
+        return redirect()->back();
     }
 
     /**

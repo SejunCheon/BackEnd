@@ -32,11 +32,8 @@
                             <div
                                 class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex"
                             >
-                                <jet-nav-link
-                                    :href="route('main')"
-                                    :active="route().current('main')"
-                                >
-                                    Main
+                                <jet-nav-link :href="route('posts.index')">
+                                    Post
                                 </jet-nav-link>
                             </div>
                         </div>

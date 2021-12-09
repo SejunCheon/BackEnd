@@ -17,7 +17,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::latest()->paginate(5);
+        $posts = Post::all();
 
         return Inertia::render('posts/index', ['posts' => $posts]);
     }
@@ -41,23 +41,28 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, ['title'=>'required', 
+        $request->validate( ['title'=>'required', 
                             'content' => 'required|min:2']);
-                            
+           
+        $fileName = null;
+
+        if($request->hasFile('image')) {
+            $fileName = time().'_'.
+                $request->file('image')->getClientOriginalName();
+            $path = $request->file('image')
+                ->storeAs('public/images', $fileName); 
+}
+
         $input = array_merge($request->all(),
             ["user_id"=>Auth::user()->id]);
 
-        // Post::create($input,
-        //     Request::validate([
-        //         'title' => ['required'],
-        //         'content' => ['required|min:2'],
-        //     ])
-        // );
+        if($fileName) {
+            $input = array_merge($input, ['image'=>$fileName]);
+        }
 
         Post::create($input);
 
-        // return redirect()->route('posts.index');                
-        return redirect()->back();
+        return redirect()->route('posts.index')->with('success', 1);                
     }
 
     /**
@@ -77,9 +82,15 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request ,$id)
     {
-        //
+        $posts = Post::find($id);
+
+        $this->authorize('update', $posts);
+
+        return Inertia::render('posts/edit', [
+            'posts'=>$posts
+        ]);
     }
 
     /**

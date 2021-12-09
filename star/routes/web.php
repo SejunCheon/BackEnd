@@ -34,10 +34,14 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 
 
 
-Route::get('/main', function () {
-    return Inertia::render('Main');
-})->name('main')->middleware(['auth']);
+Route::get('/gal', function () {
+    return Inertia::render('posts/gal');
+})->name('gal')->middleware(['auth']);
 
-// 
+Route::get('/posts/index', function () {
+    return Inertia::render('posts/index');
+})->name('posts.index')->middleware(['auth']);
+
+
 
 Route::resource('/posts', PostController::class)->middleware(['auth']);

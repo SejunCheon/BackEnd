@@ -32,7 +32,10 @@
                             <div
                                 class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex"
                             >
-                                <jet-nav-link :href="route('posts.index')">
+                                <jet-nav-link
+                                    :href="route('posts.index')"
+                                    :active="route().current('posts.index')"
+                                >
                                     Post
                                 </jet-nav-link>
                             </div>

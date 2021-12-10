@@ -12,7 +12,6 @@
                     <v-card class="mb-4" outlined>
                         <v-card-title
                             >{{ post.title }}
-                            {{ post.content }}
                             <v-spacer></v-spacer>
 
                             <v-menu bottom right>
@@ -30,17 +29,17 @@
                                             </a></v-list-item-title
                                         >
                                     </v-list-item>
+
                                     <v-list-item>
-                                        <v-list-item-title
-                                            ><a :href="`/posts/${post.id}/edit`"
-                                                >삭제
-                                            </a></v-list-item-title
-                                        >
+                                        <v-list-item-title href="/posts"
+                                            >삭제
+                                        </v-list-item-title>
                                     </v-list-item>
                                 </v-list>
                             </v-menu>
                         </v-card-title>
-                        <v-img :src="'/storage/images/' + post.image"></v-img>
+                        <v-img src="storage/images/1639111256_icon.gif"></v-img>
+                        <!-- <v-img :src="'/storage/images/' + post.image"></v-img> -->
                     </v-card>
 
                     <v-card-text>
@@ -81,19 +80,22 @@ export default {
     props: ["posts"],
     components: { Main },
     data() {
-        return {
-            btnMenu: [{ title: "수정" }, { title: "삭제" }],
-        };
+        return {};
     },
     mounted() {
         console.log(this.posts);
     },
     methods: {
         edit: function () {
-            this.inertia.get("posts.edit", {
+            this.$inertia.get(`/posts/${posts.id}/edit`, {
                 form: this.form,
                 _token: this.$page.props.csrf_token,
             });
+        },
+        delete: function () {
+            if (confirm("정말로 게시글을 삭제하시겠어요?")) {
+                this.form.delete(this.route("posts.destroy"));
+            }
         },
     },
 };

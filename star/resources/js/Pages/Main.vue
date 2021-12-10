@@ -115,7 +115,7 @@
                                     >
                                         <v-card color="primary" dark>
                                             <v-card-text>
-                                                로딩중 잠시 기달ㄹ
+                                                로딩중 잠시 기다려주세요
                                                 <v-progress-linear
                                                     indeterminate
                                                     color="white"
@@ -146,7 +146,10 @@
             <v-list-item two-line :class="miniVariant && 'px-0'">
                 <v-list-item-avatar>
                     <!-- 네비게이션바에서 프로필사진구현 -->
-                    <!-- <img :src="{{ auth()->user()->profile_photo_url }}" /> -->
+                    <img
+                        src="/storage/profile-photos/CPTrKTCPowS6v5zvmDTdwWp1Mxgwe5Y3PV1t3Eix.png"
+                        alt=""
+                    />
                 </v-list-item-avatar>
 
                 <v-list-item-content>
@@ -171,6 +174,19 @@
                     <v-list-item-content>
                         <v-list-item-title>{{ item.title }}</v-list-item-title>
                     </v-list-item-content>
+                </v-list-item>
+                <v-list-item link>
+                    <!-- <v-list-item-icon>
+                        <v-icon>mdi-help-box</v-icon>
+                    </v-list-item-icon> -->
+
+                    <!-- <v-form method="POST" @submit.prevent="logout">
+                        <v-list-item-content>
+                            <v-list-item-title @click="logout()"
+                                >Logout</v-list-item-title
+                            >
+                        </v-list-item-content>
+                    </v-form> -->
                 </v-list-item>
             </v-list>
         </v-navigation-drawer>
@@ -227,6 +243,9 @@ export default {
     methods: {
         openModal: function () {
             this.isOpen = true;
+        },
+        logout() {
+            this.$inertia.post(route("logout"));
         },
         reset: function () {
             this.form = {

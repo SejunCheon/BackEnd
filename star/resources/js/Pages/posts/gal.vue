@@ -4,7 +4,7 @@
             <Main />
             <v-card>
                 <v-row>
-                    <v-col v-for="post in posts" :key="post.id" cols="1">
+                    <v-col v-for="post in posts" :key="post.id" cols="4">
                         <v-img
                             id="img"
                             :src="'/storage/images/' + post.image"
@@ -40,7 +40,6 @@ export default {
     components: {
         Main,
     },
-    data() {},
 };
 </script>
 

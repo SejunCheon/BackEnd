@@ -3,74 +3,63 @@
         <v-app>
             <Main />
             <v-card class="mx-auto my-12 container" max-width="614" outlined>
-                <v-card class="mb-4" outlined>
-                    <v-card-title
-                        >{{ posts.title }}
-                        <v-spacer></v-spacer>
+                <v-form
+                    @submit.prevent="updatePost"
+                    ref="form"
+                    lazy-validation
+                    v-model="valid"
+                >
+                    <v-card class="mb-4" outlined>
+                        <v-card-title
+                            >{{ posts.title }}
+                            <v-spacer></v-spacer>
+                            <v-btn a href="/posts" color="blue darken-1" dark
+                                >목록</v-btn
+                            >
+                        </v-card-title>
+                    </v-card>
+                    <v-img :src="`/storage/images/${posts.image}`"></v-img>
+                    <v-card-text>
+                        <v-row
+                            align="center"
+                            class="mx-0"
+                            justify="space-between"
+                        >
+                            <v-rating
+                                :value="4.5"
+                                color="amber"
+                                dense
+                                half-increments
+                                readonly
+                                size="14"
+                            ></v-rating>
 
-                        <v-menu bottom right>
-                            <template v-slot:activator="{ on, attrs }">
-                                <v-btn icon v-bind="attrs" v-on="on">
-                                    <v-icon>mdi-dots-vertical</v-icon>
-                                </v-btn>
-                            </template>
+                            <div class="grey--text ms-4">
+                                {{ posts.created_at }}
+                            </div>
+                        </v-row>
 
-                            <v-list>
-                                <v-list-item>
-                                    <v-list-item-title
-                                        ><a href="/posts"
-                                            >목록
-                                        </a></v-list-item-title
-                                    >
-                                </v-list-item>
-                                <v-list-item>
-                                    <v-list-item-title
-                                        ><a :href="`/posts/${posts.id}/edit`"
-                                            >수정
-                                        </a></v-list-item-title
-                                    >
-                                </v-list-item>
-                                <v-list-item>
-                                    <v-list-item-title
-                                        ><a :href="`/posts/${posts.id}/edit`"
-                                            >삭제
-                                        </a></v-list-item-title
-                                    >
-                                </v-list-item>
-                            </v-list>
-                        </v-menu>
-                    </v-card-title>
-                </v-card>
-                <v-img src="storage/images/1639111256_icon.gif"></v-img>
-                <!-- <v-img src="/storage/images/1639111256_icon.gif"></v-img> -->
-                <v-card-text>
-                    <v-row align="center" class="mx-0" justify="space-between">
-                        <v-rating
-                            :value="4.5"
-                            color="amber"
-                            dense
-                            half-increments
-                            readonly
-                            size="14"
-                        ></v-rating>
+                        <v-text-field
+                            v-model="form.title"
+                            :rules="titleRules"
+                        ></v-text-field>
+                    </v-card-text>
 
-                        <div class="grey--text ms-4">
-                            {{ posts.created_at }}
-                        </div>
-                    </v-row>
+                    <v-divider class="mx-4"></v-divider>
 
-                    <v-card-title
-                        ><v-text-field v-model="form.title"></v-text-field
-                    ></v-card-title>
-                </v-card-text>
-
-                <v-divider class="mx-4"></v-divider>
-
-                <v-card-text class="mx-4"
-                    ><v-text-field v-model="form.content"></v-text-field
-                ></v-card-text>
-                <v-form @submit.prevent="updatePost">
-                    <v-btn href="/posts">수정하기</v-btn>
+                    <v-text-field
+                        class="mx-4"
+                        v-model="form.content"
+                        :rules="contentRules"
+                    ></v-text-field>
+                    <v-btn
+                        type="submit"
+                        @click="updatePost()"
+                        :disabled="!valid"
+                        color="blue darken-1"
+                        dark
+                        >수정하기</v-btn
+                    >
                 </v-form>
             </v-card>
         </v-app>
@@ -84,16 +73,30 @@ export default {
     components: { Main },
     data() {
         return {
+            valid: false,
             form: {
-                title: null,
-                content: null,
+                title: this.posts.title,
+                content: this.posts.content,
                 _token: this.$page.props.csrf_token,
             },
+            imageRules: [(v) => !!v || "사진은 필수 항목입니다."],
+            titleRules: [
+                (v) => !!v || "제목은 필수 항목입니다.",
+                (v) => (v && v.length <= 10) || "제목은 10자 미만이어야 합니다",
+            ],
+            contentRules: [
+                (v) => !!v || "내용은 필수 항목입니다.",
+                (v) => (v && v.length <= 10) || "내용은 10자 미만이어야 합니다",
+            ],
         };
     },
     methods: {
         updatePost() {
-            this.$inertia.post("/post", this.form);
+            this.$inertia.put(`/posts/${this.posts.id}`, this.form);
+            this.$refs.form.validate();
+            if (this.$refs.form.validate() === false) {
+                this.valid = false;
+            }
         },
     },
 };

@@ -1,5 +1,5 @@
 <template>
-    <div class="overflow-y-auto" scroll-region>
+    <div>
         <v-app>
             <Main>
                 <v-card
@@ -22,24 +22,33 @@
                                 </template>
 
                                 <v-list>
-                                    <v-list-item>
-                                        <v-list-item-title
-                                            ><a :href="`/posts/${post.id}/edit`"
-                                                >수정
-                                            </a></v-list-item-title
-                                        >
-                                    </v-list-item>
-
-                                    <v-list-item>
-                                        <v-list-item-title href="/posts"
-                                            >삭제
-                                        </v-list-item-title>
-                                    </v-list-item>
+                                    <v-form @submit.prevent="edit" ref="form">
+                                        <v-list-item>
+                                            <v-list-item-title
+                                                ><a @click="edit(post.id)"
+                                                    >수정
+                                                </a></v-list-item-title
+                                            >
+                                        </v-list-item>
+                                    </v-form>
+                                    <v-form
+                                        @submit.prevent="deletePost"
+                                        ref="form"
+                                    >
+                                        <v-list-item>
+                                            <v-list-item-title
+                                                ><a
+                                                    type="submit"
+                                                    @click="deletePost(post.id)"
+                                                    >삭제</a
+                                                >
+                                            </v-list-item-title>
+                                        </v-list-item>
+                                    </v-form>
                                 </v-list>
                             </v-menu>
                         </v-card-title>
-                        <v-img src="storage/images/1639111256_icon.gif"></v-img>
-                        <!-- <v-img :src="'/storage/images/' + post.image"></v-img> -->
+                        <v-img :src="'/storage/images/' + post.image"></v-img>
                     </v-card>
 
                     <v-card-text>
@@ -86,15 +95,12 @@ export default {
         console.log(this.posts);
     },
     methods: {
-        edit: function () {
-            this.$inertia.get(`/posts/${posts.id}/edit`, {
-                form: this.form,
-                _token: this.$page.props.csrf_token,
-            });
+        edit: function (id) {
+            this.$inertia.get(`/posts/${id}/edit`, this.form);
         },
-        delete: function () {
+        deletePost: function (id) {
             if (confirm("정말로 게시글을 삭제하시겠어요?")) {
-                this.form.delete(this.route("posts.destroy"));
+                this.$inertia.delete(`/posts/${id}`);
             }
         },
     },

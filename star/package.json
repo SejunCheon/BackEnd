@@ -29,6 +29,7 @@
     "dependencies": {
         "@mdi/js": "^6.5.95",
         "vee-validate": "^2.2.15",
+        "vue-axios": "^3.4.0",
         "vuetify": "^2.6.1"
     }
 }

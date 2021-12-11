@@ -8,7 +8,6 @@
             dark
             fixed
         >
-            <!-- 서치로 이름치면 찾아주는거 하다 말았음 -->
             <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
             <v-toolbar-title
                 ><div class="titleName">
@@ -17,9 +16,7 @@
             >
             <div class="title">
                 <v-col cols="12" sm="5">
-                    <!-- prepend-icon="mdi-magnify"  검색 아이콘-->
                     <v-form>
-                        <!-- <input type="text" @keyup.enter.prevent="submit" /> -->
                         <v-input></v-input>
                         <v-textarea
                             v-model="search"
@@ -64,6 +61,7 @@
                                                     filled
                                                     prepend-icon="mdi-camera"
                                                     v-model="form.image"
+                                                    :rules="imageRules"
                                                 ></v-file-input>
                                             </v-col>
                                             <v-col cols="12">
@@ -175,19 +173,7 @@
                         <v-list-item-title>{{ item.title }}</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
-                <v-list-item link>
-                    <!-- <v-list-item-icon>
-                        <v-icon>mdi-help-box</v-icon>
-                    </v-list-item-icon> -->
-
-                    <!-- <v-form method="POST" @submit.prevent="logout">
-                        <v-list-item-content>
-                            <v-list-item-title @click="logout()"
-                                >Logout</v-list-item-title
-                            >
-                        </v-list-item-content>
-                    </v-form> -->
-                </v-list-item>
+                <v-list-item link> </v-list-item>
             </v-list>
         </v-navigation-drawer>
 
@@ -229,7 +215,9 @@ export default {
                 image: null,
                 title: null,
                 content: null,
+                // _token: this.$page.props.csrf_token,
             },
+            imageRules: [(v) => !!v || "사진은 필수 항목입니다."],
             titleRules: [
                 (v) => !!v || "제목은 필수 항목입니다.",
                 (v) => (v && v.length <= 10) || "제목은 10자 미만이어야 합니다",
@@ -265,7 +253,7 @@ export default {
             if (this.$refs.form.validate() === false) {
                 this.dialog = false;
             } else {
-                this.reset();
+                // this.reset();
                 this.$refs.form.reset();
                 this.dialog = true;
                 setTimeout(() => (this.isOpen = false), 500);

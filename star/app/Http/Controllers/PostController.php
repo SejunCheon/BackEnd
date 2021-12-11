@@ -46,20 +46,24 @@ class PostController extends Controller
         //                     'content' => 'required|min:2']);
         
         $this->validate($request, [
+            'image'=>'required',
             'title'=>'required', 
-                            'content' => 'required|min:2']); 
+                            'content' => 'required']); 
 
         $fileName = null;
 
         if($request->hasFile('image')) {
-            $fileName = time().'_'.
-                $request->file('image')->getClientOriginalName();
+            // $fileName = time().'_'.
+            $fileName = $request->file('image')->getClientOriginalName();
             $path = $request->file('image')
                 ->storeAs('public/images', $fileName); 
+
         }
 
         $input = array_merge($request->all(),
             ["user_id"=>Auth::user()->id]);
+
+        
 
         if($fileName) {
             $input = array_merge($input, ['image'=>$fileName]);
@@ -92,8 +96,6 @@ class PostController extends Controller
     {
         $posts = Post::find($id);
 
-        // $this->authorize('update', $posts);
-
         return Inertia::render('posts/edit', [
             'posts'=>$posts
         ]);
@@ -108,7 +110,9 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, ['title'=>'required', 
+        $this->validate($request, [
+                            // 'image'=>'required',
+                            'title'=>'required', 
                             'content' => 'required|min:2']);
 
         $posts = Post::find($id);
@@ -117,19 +121,10 @@ class PostController extends Controller
 
         $posts->content = $request->content;
        
-        if($request->image){
-
-            if($posts->image){
-                Storage::delete('public/images/'.$posts->image);
-            }
-            $fileName = time().'_'.
-                $request->file('image')->getClientOriginalName();
-            $posts->image = $fileName;
-            $request->image->storeAs('public/images', $fileName);
-        }
+        
         $posts->save();
 
-        return redirect()->route('posts.index', ['posts'=>$posts->id]);
+        return redirect()->route('posts.index', ['posts'=>$posts]);
     }
 
     /**
@@ -142,23 +137,13 @@ class PostController extends Controller
     {
         $posts = Post::find($id);
 
-        // $this->authorize('delete', $posts);
 
         if($posts->image) {
             Storage::delete('public/images/'.$posts->image);
         }
-
         $posts->delete();
 
         return redirect()->route('posts.index');
     }
 
-    // public function deleteImage($id) {
-    //     $posts = Post::find($id);
-    //     Storage::delete('public/images/'.$posts->image);
-    //     $posts->image = null;
-    //     $posts->save();
-
-    //     return redirect()->route('posts.edit', ['post'=>$posts->id]);
-    // }
 }

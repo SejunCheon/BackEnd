@@ -2,15 +2,26 @@
     <div>
         <v-app>
             <Main />
-            <v-card>
+            <v-card class="container" width="70%" height="70%">
                 <v-row>
-                    <v-col v-for="post in posts" :key="post.id" cols="4">
+                    <v-col
+                        class="d-flex child-flex"
+                        v-for="n in 9"
+                        :key="n"
+                        cols="4"
+                    >
+                        <!-- v-for="post in posts" cols="12" :key="post.id"
+                        :src="'/storage/images/' + post.image" -->
+
                         <v-img
-                            id="img"
-                            :src="'/storage/images/' + post.image"
-                            :lazy-src="'/storage/images/' + post.image"
-                            aspect-ratio="1"
                             class="grey lighten-2"
+                            :src="`https://picsum.photos/500/300?image=${
+                                n * 5 + 10
+                            }`"
+                            :lazy-src="`https://picsum.photos/10/6?image=${
+                                n * 5 + 10
+                            }`"
+                            spect-ratio="1"
                         >
                             <template v-slot:placeholder>
                                 <v-row
@@ -40,12 +51,18 @@ export default {
     components: {
         Main,
     },
+    data() {
+        return {};
+    },
 };
 </script>
 
 <style>
-/* #img {
-    width: 150px;
-    height: 100px;
-} */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin-top: 100px;
+}
 </style>

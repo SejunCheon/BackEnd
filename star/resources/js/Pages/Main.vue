@@ -1,30 +1,34 @@
 <template>
     <div id="App">
         <v-app-bar
-            class="fixed-bar"
+            class="fixed-bar m-0"
             color="primary"
             elevation="4"
             outlined
-            dark
             fixed
+            dark
         >
-            <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
+            <v-app-bar-nav-icon
+                dark
+                @click="drawer = true"
+            ></v-app-bar-nav-icon>
             <v-toolbar-title
                 ><div class="titleName">
                     <a href="/posts">Outstargram</a>
                 </div></v-toolbar-title
             >
             <div class="title">
-                <v-col cols="12" sm="5">
-                    <v-form>
-                        <v-input></v-input>
-                        <v-textarea
-                            v-model="search"
-                            class="text"
-                            rows="1"
-                            placeholder="Search title..."
-                        ></v-textarea>
-                    </v-form>
+                <v-col cols="12" sm="4">
+                    <br />
+                    <v-textarea
+                        v-model="search"
+                        class="text, mb-3 mr-15"
+                        rows="1"
+                        color="dark"
+                        placeholder="Search title..."
+                        prepend-icon="mdi-magnify"
+                    >
+                    </v-textarea>
                 </v-col>
             </div>
             <div class="dialog">
@@ -126,7 +130,7 @@
                             </v-card>
                         </v-form>
                     </v-dialog>
-                    <v-btn icon href="/user/profile">
+                    <v-btn icon dark href="/user/profile">
                         <v-icon>{{ icon.mdiAccount }}</v-icon>
                     </v-btn>
                 </v-row>
@@ -276,15 +280,7 @@ export default {
             setTimeout(() => (this.dialog = false), 500);
         },
     },
-    computed: {
-        filteredList() {
-            this.posts.filter((post) => {
-                return post.title
-                    .toLowerCase()
-                    .includes(this.search.toUpperCase());
-            });
-        },
-    },
+
     mounted() {
         console.log(this.form);
     },

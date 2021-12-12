@@ -42,6 +42,9 @@ Route::get('/posts/index', function () {
     return Inertia::render('posts/index');
 })->name('posts.index')->middleware(['auth']);
 
+Route::get('/posts/search', function() {
+    return Inertia::render('posts.search', [PostController::class, 'search']);
+})->name('/posts/search')->middleware(['auth']);
 
 
 Route::resource('/posts', PostController::class)->middleware(['auth']);

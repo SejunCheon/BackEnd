@@ -104,6 +104,15 @@ export default {
             }
         },
     },
+    computed: {
+        filteredList() {
+            return this.posts.filter((post) => {
+                return post.title
+                    .toLowerCase()
+                    .includes(this.post.toUpperCase());
+            });
+        },
+    },
 };
 </script>
 
